@@ -26,10 +26,18 @@
 axios.get('https://api.github.com/users/Jesuscarrillo179/followers')
 .then( response => {
   console.log(response.data);
-  response.data.forEach( obj => {
-    document.querySelector('.cards').appendChild(createCard(obj));
-  });
-
+  const personUrl = response.data.map(obj => obj.url);
+  console.log(personUrl);
+  personUrl.forEach(obj =>
+    axios.get(obj)
+    .then( response => {
+      console.log(response.data);
+      document.querySelector('.cards').appendChild(createCard(response.data));
+    })
+    .catch( error => {
+      console.log('there was an another error! fix this!',error)
+    })
+    );
 })
 .catch( error => {
   console.log('there was an another error! fix this!',error)
@@ -43,6 +51,7 @@ axios.get('https://api.github.com/users/Jesuscarrillo179')
 .catch( error => {
   console.log('there was an error! fix this!',error)
 });
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
