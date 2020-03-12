@@ -23,11 +23,15 @@
           user, and adding that card to the DOM.
 */
 
+// followers Profiles
 axios.get('https://api.github.com/users/Jesuscarrillo179/followers')
 .then( response => {
   console.log(response.data);
+
+  //creates an array of url links to profile
   const personUrl = response.data.map(obj => obj.url);
-  console.log(personUrl);
+
+  //getting profile links from array
   personUrl.forEach(obj =>
     axios.get(obj)
     .then( response => {
@@ -43,6 +47,7 @@ axios.get('https://api.github.com/users/Jesuscarrillo179/followers')
   console.log('there was an another error! fix this!',error)
 });
 
+// My profile
 axios.get('https://api.github.com/users/Jesuscarrillo179')
 .then( response => {
   console.log(response.data);
@@ -115,6 +120,7 @@ function createCard(info){
   //a link
   const githubLink = document.createElement('a');
   githubLink.setAttribute('href', info.html_url);
+  githubLink.setAttribute('target', "_blank");
   githubLink.textContent = info.html_url;
 
   //p followers
